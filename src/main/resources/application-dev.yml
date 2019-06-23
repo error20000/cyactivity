@@ -1,0 +1,84 @@
+debug: false
+server:
+  port: 8580
+  display-name: tpl-test-20190612
+  pkg-name: wb
+wb:
+  prefix: tpl0612
+  redis:
+    prefix: 02000
+spring:
+  application:
+    name: wb
+  datasource:
+    names: plat
+    plat:
+      driver-class-name: oracle.jdbc.OracleDriver
+      url: jdbc:oracle:thin:@127.0.0.1:1521:orcl
+      username: cyactivity
+      password: cyactivity
+      max-active: 1
+      initial-size: 1
+  redis:
+    # Redis数据库索引（默认为0）
+    database: 0
+    # Redis服务器地址
+    host: 10.1.16.10
+    # Redis服务器连接端口
+    port: 6379
+    # Redis服务器连接密码（默认为空）
+    password:
+    # 连接池最大连接数（使用负值表示没有限制）
+    pool.max-active: 8
+    # 连接池最大阻塞等待时间（使用负值表示没有限制）-1
+    pool.max-wait: 100
+    # 连接池中的最大空闲连接
+    pool.max-idle: 8
+    # 连接池中的最小空闲连接
+    pool.min-idle: 0
+    # 连接超时时间（毫秒）
+    timeout: 200
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true 
+redis:
+  default:
+    expire: 60
+  weixin:
+    expire: 86400
+  activity:
+    info:
+      expire: 36000
+  app:
+    #游戏缓存过期10小时，单位s
+    expire: 36000
+  wxApp:
+    #公众号配置过期200小时，单位s
+    expire: 720000
+  # 用户绑定关系缓存5分钟
+  coreUserOpen: 300
+    
+#logging:
+#  httpLogging: NONE
+filter:
+  exclude:
+    - /iuysadfsafsafdh
+  excludePattern:
+    - /akjhdsfhkdsa/[0-9]
+    - /wb/[0-9a-zA-Z_]+/phone/sendcode
+  excludeLoginUrls:
+    - /wb/[0-9a-zA-Z_]+/[0-9a-zA-Z_]+/core/login/[0-9a-zA-Z_]+/[0-9a-zA-Z_]+/[0-9a-zA-Z_]+/logout
+    - /wb/[0-9a-zA-Z_]+/[0-9a-zA-Z_]+/core/login/[0-9a-zA-Z_]+/[0-9a-zA-Z_]+/[0-9a-zA-Z_]+/phonelogin
+    - /wb/[0-9a-zA-Z_]+/[0-9a-zA-Z_]+/user/info
+    - /wb/[0-9a-zA-Z_]+/[0-9a-zA-Z_]+/init
+logging:
+  path: logs/wb
+  level: INFO
+  cyou:
+    level: DEBUG
+    mapperLevel: DEBUG
+    additivity: true
+  httpLogging: BASIC
+  logstash:
+    host: 127.0.0.1
+    posrt: 8888

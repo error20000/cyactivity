@@ -1,0 +1,136 @@
+<configuration>
+    <contextName>logback</contextName>
+    <springProperty scope="context" name="logLevel" source="logging.level"/>
+    <springProperty scope="context" name="logLevelCY" source="logging.cyou.level"/>
+    <springProperty scope="context" name="logLevelMapper" source="logging.cyou.mapperLevel"/>
+    <springProperty scope="context" name="logPath" source="logging.path"/>
+    <!--<springProperty scope="context" name="syslogHost" source="log.syslog.host"/>
+    <springProperty scope="context" name="syslogFacility" source="log.syslog.facility"/>-->
+    <springProperty scope="context" name="cyAdditivity" source="logging.cyou.additivity"/>
+
+    <springProperty scope="context" name="appname" source="server.display-name"/>
+    <springProperty scope="context" name="pkgname" source="server.pkg-name"/>
+    <springProperty scope="context" name="profile" source="spring.profiles.active"/>
+    <springProperty scope="context" name="logstash.host" source="logging.logstash.host"/>
+    <springProperty scope="context" name="logstash.port" source="logging.logstash.port"/>
+
+    <conversionRule conversionWord="TYPE"
+                    converterClass="com.cyou.common.base.log.converter.TypeConverter" />
+    <conversionRule conversionWord="SIGNATRUE"
+                    converterClass="com.cyou.common.base.log.converter.SignatrueConverter" />
+    <appender name="STDOUT-DEFAULT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%date] [%-5level][${PID:-}][%thread] [%-40.40logger] : [%m]%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="filelog-DEFAULT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logPath}/act-default.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logPath}/act-default.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <!-- 30 days -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%date] [%-5level][${PID:-}][%thread] [%-40.40logger] : [%m]%n</pattern>
+        </encoder>
+        <!--<encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                &lt;!&ndash;<timeZone>UTC</timeZone>&ndash;&gt;
+                <pattern>
+                    <pattern>
+                        {
+                        "date":"%date",
+                        "level":"%level",
+                        "PID":"${PID}",
+                        "thread":"%thread",
+                        "logger_name":"%logger",
+                        "message":"%m"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>-->
+    </appender>
+    <appender name="STDOUT-CYOU" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>[%date] [%-5level][${PID:-}][%thread][%mdc{access_id}] [%mdc{execute_time}] - [%TYPE][%mdc{grade}][%mdc{process_sn}] [%mdc{uri}] [%mdc{mark}][%msg] - [%SIGNATRUE][%mdc{request_header}][%mdc{method_args}][%mdc{method_return}] [%mdc{channel_id}][%mdc{device_id}]%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="filelog-CYOU" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logPath}/act.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logPath}/act.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <!-- 30 days -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>[%date] [%-5level][${PID:-}][%thread][%mdc{access_id}] [%mdc{execute_time}] - [%TYPE][%mdc{grade}][%mdc{process_sn}] [%mdc{uri}] [%mdc{mark}][%msg] - [%SIGNATRUE][%mdc{request_header}][%mdc{method_args}][%mdc{method_return}] [%mdc{channel_id}][%mdc{device_id}]%n</pattern>
+        </encoder>
+        <!--<encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <pattern>
+                    <pattern>
+                        {
+                        "date":"%date",
+                        "level":"%level",
+                        "PID":"${PID}",
+                        "thread":"%thread",
+                        "access_id":"%mdc{access_id}",
+                        "execute_time":"%mdc{execute_time}",
+                        "type":"%TYPE",
+                        "grade":"%mdc{grade}",
+                        "process_sn":"%mdc{process_sn}",
+                        "request":"%mdc{uri}",
+                        "mark":"%mdc{mark}",
+                        "logger_name":"%logger",
+                        "message":"%m",
+                        "signature":"%SIGNATRUE",
+                        "request_header":"%mdc{request_header}",
+                        "method_args":"%mdc{method_args}",
+                        "method_return":"%mdc{method_return}",
+                        "channel_id":"%mdc{channel_id}",
+                        "device_id":"%mdc{device_id}"
+                        }
+                    </pattern>
+                </pattern>
+            </providers>
+        </encoder>-->
+    </appender>
+
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <!--<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>-->
+        <filter class="com.cyou.activity.common.LoggingProfileFilter"><profile>test</profile></filter>
+        <destination>${logstash.host}:${logstash.port}</destination>
+        <encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"tags":["logback"]}</customFields>
+        </encoder>
+    </appender>
+
+    <root level="${logLevel}">
+        <appender-ref ref="STDOUT-DEFAULT"/>
+        <appender-ref ref="filelog-DEFAULT"/>
+        <appender-ref ref="LOGSTASH"/>
+    </root>
+    <logger name="org.springframework.web" level="error" additivity="false"><appender-ref ref="STDOUT-DEFAULT"/><appender-ref ref="filelog-DEFAULT"/><appender-ref ref="LOGSTASH"/></logger>
+    <logger name="org.springframework" level="info" additivity="false"><appender-ref ref="STDOUT-DEFAULT"/><appender-ref ref="filelog-DEFAULT"/><appender-ref ref="LOGSTASH"/></logger>
+    <logger name="org.springboot.sample" level="error" additivity="false"><appender-ref ref="STDOUT-DEFAULT"/><appender-ref ref="filelog-DEFAULT"/><appender-ref ref="LOGSTASH"/></logger>
+    <logger name="org.mybatis" level="info" additivity="false"><appender-ref ref="STDOUT-DEFAULT"/><appender-ref ref="filelog-DEFAULT"/><appender-ref ref="LOGSTASH"/></logger>
+    <logger name="com.alibaba.druid" level="error" additivity="false"><appender-ref ref="STDOUT-DEFAULT"/><appender-ref ref="filelog-DEFAULT"/><appender-ref ref="LOGSTASH"/></logger>
+    <logger name="com.zaxxer" level="error" additivity="false"><appender-ref ref="STDOUT-DEFAULT"/><appender-ref ref="filelog-DEFAULT"/><appender-ref ref="LOGSTASH"/></logger>
+    <logger name="com.netflix.discovery.DiscoveryClient" level="info" additivity="false"><appender-ref ref="STDOUT-DEFAULT"/><appender-ref ref="filelog-DEFAULT"/><appender-ref ref="LOGSTASH"/></logger>
+    <logger name="com.netflix.discovery" level="warn" additivity="false"><appender-ref ref="STDOUT-DEFAULT"/><appender-ref ref="filelog-DEFAULT"/><appender-ref ref="LOGSTASH"/></logger>
+    <logger name="com.netflix.loadbalancer" level="warn" additivity="false"><appender-ref ref="STDOUT-DEFAULT"/><appender-ref ref="filelog-DEFAULT"/><appender-ref ref="LOGSTASH"/></logger>
+    <logger name="com.netflix" level="warn" additivity="false"><appender-ref ref="STDOUT-DEFAULT"/><appender-ref ref="filelog-DEFAULT"/><appender-ref ref="LOGSTASH"/></logger>
+    <logger name="org.apache.http" level="error" additivity="false"><appender-ref ref="STDOUT-DEFAULT"/><appender-ref ref="filelog-DEFAULT"/><appender-ref ref="LOGSTASH"/></logger>
+
+    <logger name="cyouLogger" level="${logLevelCY}" additivity="false"><appender-ref ref="STDOUT-CYOU"/><appender-ref ref="filelog-CYOU"/><appender-ref ref="LOGSTASH"/></logger>
+    <logger name="com.cyou.joinactivity.${pkgname}.mapper" level="${logLevelMapper}" additivity="false"><appender-ref ref="STDOUT-CYOU"/><appender-ref ref="filelog-CYOU"/><appender-ref ref="LOGSTASH"/></logger>
+    <logger name="com.cyou" level="${logLevelCY}" additivity="false"><appender-ref ref="STDOUT-CYOU"/><appender-ref ref="filelog-CYOU"/><appender-ref ref="LOGSTASH"/></logger>
+    <logger name="com.changyou" level="${logLevelCY}" additivity="false"><appender-ref ref="STDOUT-CYOU"/><appender-ref ref="filelog-CYOU"/><appender-ref ref="LOGSTASH"/></logger>
+    
+    <logger name="org" level="error" additivity="false"><appender-ref ref="STDOUT-DEFAULT"/><appender-ref ref="filelog-DEFAULT"/><appender-ref ref="LOGSTASH"/></logger>
+    <logger name="com" level="error" additivity="false"><appender-ref ref="STDOUT-DEFAULT"/><appender-ref ref="filelog-DEFAULT"/><appender-ref ref="LOGSTASH"/></logger>
+    <logger name="net" level="error" additivity="false"><appender-ref ref="STDOUT-DEFAULT"/><appender-ref ref="filelog-DEFAULT"/><appender-ref ref="LOGSTASH"/></logger>
+</configuration>
