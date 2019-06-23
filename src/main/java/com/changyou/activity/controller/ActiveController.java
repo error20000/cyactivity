@@ -3,6 +3,7 @@ package com.changyou.activity.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,6 +19,16 @@ public class ActiveController extends BaseController {
 	
     @Autowired
     private ActiveService service;
+    
+    /**
+     * 参与活动
+     * @return
+     */
+    @PostMapping("/add")
+	public Result<ActiveEntity> add() {
+		int res = service.findNum();
+		return service.insert(obj, vcode);
+	}
     
     /**
      * 获取预约人数
