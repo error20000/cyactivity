@@ -28,13 +28,22 @@ public class ActiveController extends BaseController {
      */
     @PostMapping("/add")
 	public Result<ActiveEntity> add(HttpServletRequest req) {
-    	
+    	//判断参数
     	String vcode = req.getParameter("vcode");
+    	String plat = req.getParameter("plat");
+    	String phone = req.getParameter("phone");
+    	String used_code = req.getParameter("used_code");
+    	if(vcode == null || "".equals(vcode)
+    			|| plat == null || "".equals(plat)
+    			|| phone == null || "".equals(phone) ) {
+    		return new Result<>().setCodeAndMessage(ResCode.ResCode20020);
+    	}
+    	//保存
     	ActiveEntity obj = new ActiveEntity();
     	obj.setApp_code("");
-    	obj.setPlat(req.getParameter("plat"));
-    	obj.setPhone(req.getParameter("phone"));
-    	obj.setUsed_code(req.getParameter("used_code"));
+    	obj.setPlat(plat);
+    	obj.setPhone(phone);
+    	obj.setUsed_code(used_code);
     	
 		return service.insert(obj, vcode);
 	}

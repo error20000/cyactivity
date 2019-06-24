@@ -12,6 +12,8 @@ public enum ResCode implements EnumIntf {
 	ResCode20014(20014, "手机验证码错误"),
 	
 
+	ResCode20020(20020, "缺少参数"),
+
 	ResCode20003(20003, "修改失败"),
 	ResCode20002(20002, "保存失败"),
 	ResCode20001(20001, "失败"),

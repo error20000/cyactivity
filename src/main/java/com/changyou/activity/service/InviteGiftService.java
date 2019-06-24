@@ -1,6 +1,9 @@
 package com.changyou.activity.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -11,7 +14,17 @@ import com.cyou.common.datasource.service.SuperService;
 @Service
 public class InviteGiftService extends SuperService<InviteGiftMapper, InviteGiftEntity> {
 	
-	public List<InviteGiftEntity> findAll() {
-		return baseMapper.selectAll();
+	public List<Map<String, Object>> findAll() {
+		return baseMapper.selectAll()
+				.stream()
+				.map(e -> { 
+					Map<String, Object> node = new HashMap<>();
+					node.put("pid", e.getPid());
+					node.put("name", e.getName());
+					node.put("num", e.getNum());
+					node.put("icon", e.getIcon());
+					return node;
+				})
+				.collect(Collectors.toList());
 	}
 }

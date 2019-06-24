@@ -1,6 +1,7 @@
 package com.changyou.activity.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +28,7 @@ public class InviteGiftController extends BaseController {
      */
 	@GetMapping("/all")
 	public Result<InviteGiftEntity> findAll() {
-		List<InviteGiftEntity> res = service.findAll();
+		List<Map<String, Object>> res = service.findAll();
 		return new Result<>().setCodeAndMessage(ResCode.ResCode20000).setData(res);
 	}
 }
