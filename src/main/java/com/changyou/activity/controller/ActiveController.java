@@ -1,5 +1,7 @@
 package com.changyou.activity.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,8 +27,15 @@ public class ActiveController extends BaseController {
      * @return
      */
     @PostMapping("/add")
-	public Result<ActiveEntity> add() {
-		int res = service.findNum();
+	public Result<ActiveEntity> add(HttpServletRequest req) {
+    	
+    	String vcode = req.getParameter("vcode");
+    	ActiveEntity obj = new ActiveEntity();
+    	obj.setApp_code("");
+    	obj.setPlat(req.getParameter("plat"));
+    	obj.setPhone(req.getParameter("phone"));
+    	obj.setUsed_code(req.getParameter("used_code"));
+    	
 		return service.insert(obj, vcode);
 	}
     

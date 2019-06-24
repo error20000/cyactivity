@@ -9,6 +9,7 @@ public enum ResCode implements EnumIntf {
 	ResCode20011(20011, "已预约"),
 	ResCode20012(20012, "邀请码已用完"),
 	ResCode20013(20013, "邀请码获取失败，请重新提交"),
+	ResCode20014(20014, "手机验证码错误"),
 	
 
 	ResCode20003(20003, "修改失败"),
