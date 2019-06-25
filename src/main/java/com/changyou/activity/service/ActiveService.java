@@ -124,5 +124,4 @@ public class ActiveService extends SuperService<ActiveMapper, ActiveEntity> {
 		return baseMapper.count() + offset;
 	}
 	
-
 }
