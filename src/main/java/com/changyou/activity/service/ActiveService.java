@@ -6,7 +6,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.changyou.activity.bean.ActiveEntity;
 import com.changyou.activity.bean.ActiveOffsetEntity;
@@ -42,7 +41,6 @@ public class ActiveService extends SuperService<ActiveMapper, ActiveEntity> {
 
     private static Byte lock = 'a';
 	
-    @Transactional
 	public Result insert(ActiveEntity obj, String vcode) {
 		//判断手机号
 		boolean isPhone = CheckPhone.isChinaPhone(obj.getPhone());
@@ -126,4 +124,5 @@ public class ActiveService extends SuperService<ActiveMapper, ActiveEntity> {
 		return baseMapper.count() + offset;
 	}
 	
+
 }

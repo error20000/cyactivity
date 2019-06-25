@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 @Data
-@Table(name = "T_INVITE_GIFT")
+@Table(name = "DS_INVITE_GIFT")
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 public class InviteGiftEntity extends SuperEntity {
@@ -21,4 +21,7 @@ public class InviteGiftEntity extends SuperEntity {
 	private int num;
 	private String code;
 	private String icon;
+	private String app_code;
+	private String activity_code;
+	private String version_code;
 }

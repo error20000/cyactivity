@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
 @Data
-@Table(name = "T_ACTIVE")
+@Table(name = "DS_ACTIVE")
 @EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 public class ActiveEntity extends SuperEntity {
@@ -26,4 +26,6 @@ public class ActiveEntity extends SuperEntity {
 	private String phone;
 	private String invite_code;
 	private String used_code;
+	private String activity_code;
+	private String version_code;
 }
