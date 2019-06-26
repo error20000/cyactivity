@@ -15,7 +15,7 @@ import com.cyou.activity.common.BaseController;
 import com.cyou.common.parent.bean.Result;
 
 @RestController
-@RequestMapping("/wb/tpl0612/invite/gift")
+@RequestMapping("/wb/{server}/invite/gift")
 public class InviteGiftController extends BaseController {
 	
     @Autowired

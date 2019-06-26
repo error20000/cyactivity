@@ -23,4 +23,5 @@ public class GiftItemEntity extends SuperEntity {
 	private String app_code;
 	private String activity_code;
 	private String version_code;
+	private String icon;
 }

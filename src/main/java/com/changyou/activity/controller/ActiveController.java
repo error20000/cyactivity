@@ -16,7 +16,7 @@ import com.cyou.activity.common.BaseController;
 import com.cyou.common.parent.bean.Result;
 
 @RestController
-@RequestMapping("/wb/tpl0612/active")
+@RequestMapping("/wb/{server}/active")
 public class ActiveController extends BaseController {
 	
     @Autowired
