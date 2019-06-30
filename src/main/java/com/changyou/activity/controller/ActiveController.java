@@ -63,7 +63,7 @@ public class ActiveController extends BaseController {
      * @param inviteCode
      * @return
      */
-	@GetMapping("/invite/num/{inviteCode}")
+    @PostMapping("/invite/num/{inviteCode}")
 	public Result<ActiveEntity> findInviteNum(@PathVariable("inviteCode") String inviteCode) {
 		int res = service.findInviteNum(inviteCode);
 		return new Result<>().setCodeAndMessage(ResCode.ResCode20000).setData(res);
@@ -74,7 +74,7 @@ public class ActiveController extends BaseController {
 	 * @param phone
 	 * @return
 	 */
-	@GetMapping("/phone/{phone}")
+	@PostMapping("/phone/{phone}")
 	public Result<ActiveEntity> findInviteCodeByPhone(@PathVariable("phone") String phone) {
 		ActiveEntity res = service.findInviteCodeByPhone(phone);
 		return new Result<>().setCodeAndMessage(ResCode.ResCode20000).setData(res);
@@ -85,7 +85,7 @@ public class ActiveController extends BaseController {
 	 * @param openid
 	 * @return
 	 */
-	@GetMapping("/openid/{openid}")
+	@PostMapping("/openid/{openid}")
 	public Result<ActiveEntity> findInviteCodeByOpenid(@PathVariable("openid") String openid) {
 		ActiveEntity res = service.findInviteCodeByOpenid(openid);
 		return new Result<>().setCodeAndMessage(ResCode.ResCode20000).setData(res);

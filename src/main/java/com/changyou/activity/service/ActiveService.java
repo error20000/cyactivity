@@ -73,7 +73,6 @@ public class ActiveService extends SuperService<ActiveMapper, ActiveEntity> {
 		obj.setPid(SnowflakeIdWorker.generateId());
 		obj.setCreate_time(new Date());
 		obj.setInvite_code(giftCode.getCode());
-		obj.setPhone(encodeService.encode(obj.getPhone())); //加密手机号
 		int res = baseMapper.insert(obj);
 		if(res == 0) {
 			return new Result<>().setCodeAndMessage(ResCode.ResCode20002);
@@ -85,15 +84,13 @@ public class ActiveService extends SuperService<ActiveMapper, ActiveEntity> {
 
 	public ActiveEntity findInviteCodeByPhone(String phone) {
 		ActiveEntity res = baseMapper.findInviteCodeByPhone(phone);
-		String str = encodeService.decode(res.getPhone()); //解密手机号
-		res.setPhone(encodeService.getDisplay(str)); //隐藏号码
+		res.setPhone(encodeService.getDisplay(res.getPhone())); //隐藏号码
 		return res;
 	}
 
 	public ActiveEntity findInviteCodeByOpenid(String openid) {
 		ActiveEntity res = baseMapper.findInviteCodeByOpenid(openid);
-		String str = encodeService.decode(res.getPhone()); //解密手机号
-		res.setPhone(encodeService.getDisplay(str)); //隐藏号码
+		res.setPhone(encodeService.getDisplay(res.getPhone())); //隐藏号码
 		return res;
 	}
 
@@ -124,4 +121,8 @@ public class ActiveService extends SuperService<ActiveMapper, ActiveEntity> {
 		return baseMapper.count() + offset;
 	}
 	
+	public static void main(String[] args) {
+		EncodeService service = new EncodeService();
+		System.out.println(service.getDisplay("15881146309"));
+	}
 }
