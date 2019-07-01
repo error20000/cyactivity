@@ -17,7 +17,7 @@ public enum ResCode implements EnumIntf {
 	ResCode20003(20003, "修改失败"),
 	ResCode20002(20002, "保存失败"),
 	ResCode20001(20001, "失败"),
-	ResCode20000(20000, "成功");
+	ResCode20000(10000, "成功");
 	
 	
     private int num;

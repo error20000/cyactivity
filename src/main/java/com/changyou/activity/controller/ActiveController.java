@@ -23,7 +23,7 @@ public class ActiveController extends BaseController {
     private ActiveService service;
     
     /**
-     * 参与活动
+     * 	参与活动
      * @return
      */
     @PostMapping("/add")
@@ -49,7 +49,7 @@ public class ActiveController extends BaseController {
 	}
     
     /**
-     * 获取预约人数
+     * 	获取预约人数
      * @return
      */
     @GetMapping("/num")
@@ -59,7 +59,7 @@ public class ActiveController extends BaseController {
 	}
 
     /**
-     * 获取邀请的人数
+     * 	获取邀请的人数
      * @param inviteCode
      * @return
      */
@@ -70,7 +70,7 @@ public class ActiveController extends BaseController {
 	}
 
 	/**
-	 * 通过手机号查询预约信息
+	 * 	通过手机号查询预约信息
 	 * @param phone
 	 * @return
 	 */
@@ -81,7 +81,7 @@ public class ActiveController extends BaseController {
 	}
 
 	/**
-	 * 通过openid查询预约信息
+	 * 	通过openid查询预约信息
 	 * @param openid
 	 * @return
 	 */

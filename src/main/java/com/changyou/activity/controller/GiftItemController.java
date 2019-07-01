@@ -22,7 +22,7 @@ public class GiftItemController extends BaseController {
 
 
     /**
-     * 查询预约奖项的物品列表
+     * 	 查询预约奖项的物品列表
      * @return
      */
 	@GetMapping("/all")

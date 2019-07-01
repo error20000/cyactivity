@@ -22,7 +22,7 @@ public class GiftTypeController extends BaseController {
 
 
     /**
-     * 查询预约奖项
+     *  	查询预约奖项
      * @return
      */
     @GetMapping("/all")

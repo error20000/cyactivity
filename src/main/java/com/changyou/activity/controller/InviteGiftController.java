@@ -23,7 +23,7 @@ public class InviteGiftController extends BaseController {
 
 
     /**
-     * 查询邀请奖项列表
+     * 	查询邀请奖项列表
      * @return
      */
 	@GetMapping("/all")
