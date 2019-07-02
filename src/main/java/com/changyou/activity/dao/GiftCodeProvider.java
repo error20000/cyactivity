@@ -5,7 +5,7 @@ public class GiftCodeProvider {
 	
 	public String unused() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("select * from ds_gift_code where status = 0");
+		sb.append("select * from ds_gift_code where status = 0 and rownum <= 1");
 		return sb.toString();
 	}
 	

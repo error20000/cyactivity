@@ -5,6 +5,9 @@ import com.changyou.activity.service.TestService;
 import com.cyou.activity.common.BaseController;
 import com.cyou.activity.common.CheckLoginParam;
 import com.cyou.common.parent.bean.Result;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,7 +62,7 @@ public class TestController extends BaseController {
      * @return
      */
     @PostMapping("/test4")
-    public Result<Integer> update1(){
+    public Result<Integer> update1(HttpServletRequest request){
         return new Result<>();
     }
     /**

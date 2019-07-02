@@ -12,13 +12,22 @@ $('.btn_top').click(function(){
 
 //点击立即预约按钮---是否显示预约弹窗
 $('.btn_ljyy').click(function(){
-	popup($('#pop1'));//未预约
+//	popup($('#pop1'));//未预约
 //	popup($('#pop3'));//已预约
+	if(yyUserInfo){
+		popup($('#pop3'));//已预约
+	}else{
+		popup($('#pop1'));//未预约
+	}
 })
 
 //点击预约弹窗立即预约按钮---是否显示预约成功
+var yyBtnIsClick;
 $('.box_btn_ljyy').click(function(){
-	yyAdd();
+	if(!yyBtnIsClick){
+		yyAdd();
+	}
+	yyBtnIsClick = true;
 })
 
 //点击查看邀请码按钮
@@ -29,13 +38,24 @@ $('.box_btn_look').click(function(){
 
 //点击查看复制按钮
 $('.box_btn_copy').click(function(){
-	hideMask($('.pop'));
+	//hideMask($('.pop'));
+	var clipboard = new ClipboardJS('.box_btn_copy');
+	clipboard.on('success', function(e) {
+	    console.info(e);
+	    alert("复制成功");
+	    hideMask($('.pop'));
+	});
+
+	clipboard.on('error', function(e) {
+	    console.info(e);
+	    alert("复制失败，请手动选择复制");
+	});
 })
 
 //点击领取奖品----显示绑定角色弹窗
-$('.btn_get').click(function(){
+/*$('.btn_get').click(function(){
 	popup($('#pop6'));
-})
+})*/
 
 //点击提交----显示绑定成功弹窗
 $('.box_btn_submit').click(function(){

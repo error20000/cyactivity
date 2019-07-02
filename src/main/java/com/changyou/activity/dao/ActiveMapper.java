@@ -1,5 +1,6 @@
 package com.changyou.activity.dao;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.SelectProvider;
 
@@ -21,4 +22,8 @@ public interface ActiveMapper extends SuperMapper<ActiveEntity> {
 	
 	@SelectProvider(type = ActiveProvider.class, method = "findInviteCodeByOpenid")
 	public ActiveEntity findInviteCodeByOpenid(String openid);
+	
+	@Insert("insert into ds_active(pid, app_code, openid, create_time, plat, phone, invite_code, used_code, activity_code, version_code) " +
+	            "  values(#{pid}, #{appCode}, #{openid}, #{createTime}, #{plat}, #{phone}, #{inviteCode}, #{usedCode}, #{activityCode}, #{versionCode}) ")
+	public int insert(ActiveEntity obj);
 }

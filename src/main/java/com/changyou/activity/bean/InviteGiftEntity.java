@@ -21,7 +21,7 @@ public class InviteGiftEntity extends SuperEntity {
 	private int num;
 	private String code;
 	private String icon;
-	private String app_code;
-	private String activity_code;
-	private String version_code;
+	private String appCode;
+	private String activityCode;
+	private String versionCode;
 }

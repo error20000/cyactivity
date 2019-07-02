@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONArray;
 import com.changyou.activity.bean.GiftItemEntity;
 import com.changyou.activity.service.GiftItemService;
 import com.changyou.activity.util.ResCode;
@@ -25,9 +26,11 @@ public class GiftItemController extends BaseController {
      * 	 查询预约奖项的物品列表
      * @return
      */
+	@SuppressWarnings("unchecked")
 	@GetMapping("/all")
 	public Result<GiftItemEntity> findAll() {
 		List<GiftItemEntity> res = service.findAll();
+    	System.out.println(JSONArray.toJSONString(res));
 		return new Result<>().setCodeAndMessage(ResCode.ResCode20000).setData(res);
 	}
 }

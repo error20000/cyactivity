@@ -1,22 +1,48 @@
 
-//var yyBaseUrl = "http://127.0.0.1:8580";
-var test = true;
+var yyUserInfo;
+var yyUserIsLogin;
 
-$(function(){
-	yyInit();
-
+//已登录初始化
+var yyLoginInit = function(res){
+	yyTotalNum();
+	yyGiftType();
+	yyInviteGift();
+	yyInfo();
+	yyInviteNum();
+	//页面
+	$('.lg_welcome').addClass('lg_show');
+	$('.lg_welcome span').html(res.data.openid);
+	yyUserIsLogin = true;
 	//获取验证码
 	$('.btn_code_send').click(function(){
-		var phone = $('#pop1 .input_phone')。value()
+		var phone = $('#pop1 .input_phone').val();
+		if(phone){
+			cyja.user.getCode(phone, function(res){
+				
+			});
+		}else{
+			alert('请输入手机号');
+		}
 	});
-});
+	//退出
+	$('.btn_quit').click(function(){
+		cyja.user.logout();
+	});
+}
 
-var yyInit = function(){
-		yyTotalNum();
-		yyGiftType();
-		yyInvite();
-		yyInviteNum("123");
-		yyInfoPhone("13888888881");
+//未登录初始化
+var yyNoLoginInit = function(data){
+	yyTotalNum();
+	yyGiftType();
+	yyInviteGift();
+	//样式
+	yyhideInfo();
+}
+
+var yyhideInfo = function(){
+	$('.lg_welcome').removeClass('lg_show');
+	$('.yqm_txt').removeClass('lg_show');
+	$('.yq_txt').removeClass('lg_show');
 };
 
 //获取预约人数
@@ -24,11 +50,6 @@ var yyTotalNum = function(){
 	var url = cyja.options.host + "/wb/" + cyja.options.server + "/active/num";
 	var data = {};
 	cyja.client.ajax('get', url, data, function(res){
-		console.log(res);
-		//test
-		if(test){
-			res = yyTotalNumRes;
-		}
 		//res
 		if(res.code === 10000) {
 			$('.yy_num').html(res.data);
@@ -41,11 +62,6 @@ var yyGiftType = function(){
 	var url = cyja.options.host + "/wb/" + cyja.options.server + "/gift/type/all";
 	var data = {};
 	cyja.client.ajax('get', url, data, function(res){
-		console.log(res);
-		//test
-		if(test){
-			res = yyGiftTypeRes;
-		}
 		//res
 		if(res.code === 10000) {
 			var types = res.data;
@@ -69,11 +85,6 @@ var yyGiftItem = function(giftTypes){
 	var url = cyja.options.host + "/wb/" + cyja.options.server + "/gift/item/all";
 	var data = {};
 	cyja.client.ajax('get', url, data, function(res){
-		console.log(res);
-		//test
-		if(test){
-			res = yyGiftItemRes;
-		}
 		//res
 		if(res.code === 10000) {
 			var str = ''; //yy_prize_inner
@@ -110,15 +121,10 @@ var yyGiftItem = function(giftTypes){
 };
 
 //获取邀请奖项
-var yyInvite = function(){
+var yyInviteGift = function(){
 	var url = cyja.options.host + "/wb/" + cyja.options.server + "/invite/gift/all";
 	var data = {};
 	cyja.client.ajax('get', url, data, function(res){
-		console.log(res);
-		//test
-		if(test){
-			res = yyInviteRes;
-		}
 		//res
 		if(res.code === 10000) {
 			var types = res.data;
@@ -149,57 +155,45 @@ var yyInvite = function(){
 				str += '</div>';
 			}
 			$('.yq_prize').html(str);
+			//绑定事件
+			//点击领取奖品----显示绑定角色弹窗
+			$('.btn_get').click(function(){
+				popup($('#pop6'));
+			})
 		}
 	});
 };
 
-//通过手机号查询预约信息
-var yyInfoPhone = function(phone){
-	var url = cyja.options.host + "/wb/" + cyja.options.server + "/active/phone/" + phone;
+//查询预约信息
+var yyInfo = function(){
+	var url = cyja.options.host + "/wb/" + cyja.options.server + "/active/info";
 	var data = {};
 	cyja.client.ajax('post', url, data, function(res){
-		console.log(res);
-		//test
-		if(test){
-			res = yyInfoRes;
-		}
 		//res
 		if(res.code === 10000) {
-			$('.yqm_num').html(res.data.invite_code);
+			yyUserInfo = res.data;
+			$('.code_link').html(window.location.href);
+			if(yyUserInfo){
+				$('.yqm_num').html(res.data.inviteCode);
+				$('.code_txt').html(res.data.inviteCode);
+				$('.yqm_txt').addClass('lg_show');
+			}else{
+				$('.yqm_num').html('');
+				$('.code_txt').html('');
+			}
 		}
 	});
-};
-
-//通过openid查询预约信息
-var yyInfoOpenid = function(openid){
-	var url = cyja.options.host + "/wb/" + cyja.options.server + "/active/openid/" + openid;
-	var data = {};
-	cyja.client.ajax('post', url, data, function(res){
-		console.log(res);
-		//test
-		if(test){
-			res = yyInfoRes;
-		}
-		//res
-		if(res.code === 10000) {
-			$('.yqm_num').html(res.data.invite_code);
-		}
-	});
-};
+}
 
 //查询邀请人数
 var yyInviteNum = function(inviteCode){
-	var url = cyja.options.host + "/wb/" + cyja.options.server + "/active/invite/num/" + inviteCode;
+	var url = cyja.options.host + "/wb/" + cyja.options.server + "/active/invite/num";
 	var data = {};
 	cyja.client.ajax('post', url, data, function(res){
-		console.log(res);
-		//test
-		if(test){
-			res = yyInviteNumRes;
-		}
 		//res
 		if(res.code === 10000) {
 			$('.yq_num').html(res.data);
+			$('.yq_txt').addClass('lg_show');
 		}
 	});
 };
@@ -210,17 +204,25 @@ var yyAdd = function(){
 	var url = cyja.options.host + "/wb/" + cyja.options.server + "/active/add";
 	var data = {
 		plat: $('#pop1 .btn_sys.on').attr('title'),
-		phone: $('#pop1 .input_phone')。value(),
-		vcode: $('#pop1 .input_code')。value(),
-		used_code: $('#pop1 .input_invite_code')。value()
+		phone: $('#pop1 .input_phone').val(),
+		vcode: $('#pop1 .input_code').val(),
+		used_code: $('#pop1 .input_invite_code').val()
 	};
 	cyja.client.ajax('post', url, data, function(res){
-		console.log(res);
 		if(res.code === 10000) {
 			//切换效果
 			hideMask($('.pop'));
 			popup($('#pop2'));
+			//查询
+			yyInfo();
+		}else if(res.code === 20011){
+			popup($('#pop3'));//已预约
+			//查询
+			yyInfo();
+		}else{
+			alert(res.message);
 		}
+		yyBtnIsClick = false; 
 	});
 };
 

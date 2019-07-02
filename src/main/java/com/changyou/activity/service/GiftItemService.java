@@ -12,6 +12,6 @@ import com.cyou.common.datasource.service.SuperService;
 public class GiftItemService extends SuperService<GiftItemMapper, GiftItemEntity> {
 
 	public List<GiftItemEntity> findAll() {
-		return baseMapper.selectAll();
+		return baseMapper.findAll();
 	}
 }

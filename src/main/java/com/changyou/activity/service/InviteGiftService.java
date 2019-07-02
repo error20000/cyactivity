@@ -15,7 +15,7 @@ import com.cyou.common.datasource.service.SuperService;
 public class InviteGiftService extends SuperService<InviteGiftMapper, InviteGiftEntity> {
 	
 	public List<Map<String, Object>> findAll() {
-		return baseMapper.selectAll()
+		return baseMapper.findAll()
 				.stream()
 				.map(e -> { 
 					Map<String, Object> node = new HashMap<>();

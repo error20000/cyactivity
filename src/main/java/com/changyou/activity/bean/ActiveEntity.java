@@ -19,13 +19,13 @@ public class ActiveEntity extends SuperEntity {
 
 	@Id
 	private long pid;
-	private String app_code;
+	private String appCode;
 	private String openid;
-	private Date create_time;
+	private Date createTime;
 	private String plat;
 	private String phone;
-	private String invite_code;
-	private String used_code;
-	private String activity_code;
-	private String version_code;
+	private String inviteCode;
+	private String usedCode;
+	private String activityCode;
+	private String versionCode;
 }

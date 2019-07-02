@@ -16,7 +16,7 @@ public class GiftCodeEntity extends SuperEntity {
 	
 	private String code;
 	private int status;
-	private String app_code;
-	private String activity_code;
-	private String version_code;
+	private String appCode;
+	private String activityCode;
+	private String versionCode;
 }

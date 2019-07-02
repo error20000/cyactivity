@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.changyou.activity.bean.ActiveEntity;
 import com.changyou.activity.bean.ActiveOffsetEntity;
 import com.changyou.activity.bean.GiftCodeEntity;
@@ -41,6 +42,7 @@ public class ActiveService extends SuperService<ActiveMapper, ActiveEntity> {
 
     private static Byte lock = 'a';
 	
+	@SuppressWarnings("rawtypes")
 	public Result insert(ActiveEntity obj, String vcode) {
 		//判断手机号
 		boolean isPhone = CheckPhone.isChinaPhone(obj.getPhone());
@@ -61,18 +63,20 @@ public class ActiveService extends SuperService<ActiveMapper, ActiveEntity> {
 		GiftCodeEntity giftCode = null;
 		synchronized (lock) {
 			giftCode = gcMapper.unused();
+			System.out.println(JSONObject.toJSONString(giftCode));
 			if(giftCode == null) {
 				return new Result<>().setCodeAndMessage(ResCode.ResCode20012);
 			}
 			int gres = gcMapper.used(giftCode.getCode());
+			System.out.println(gres);
 			if(gres == 0) {
 				return new Result<>().setCodeAndMessage(ResCode.ResCode20013);
 			}
 		}
 		//保存
 		obj.setPid(SnowflakeIdWorker.generateId());
-		obj.setCreate_time(new Date());
-		obj.setInvite_code(giftCode.getCode());
+		obj.setCreateTime(new Date());
+		obj.setInviteCode(giftCode.getCode());
 		int res = baseMapper.insert(obj);
 		if(res == 0) {
 			return new Result<>().setCodeAndMessage(ResCode.ResCode20002);
@@ -84,24 +88,32 @@ public class ActiveService extends SuperService<ActiveMapper, ActiveEntity> {
 
 	public ActiveEntity findInviteCodeByPhone(String phone) {
 		ActiveEntity res = baseMapper.findInviteCodeByPhone(phone);
-		res.setPhone(encodeService.getDisplay(res.getPhone())); //隐藏号码
+		if(res != null) {
+			res.setPhone(encodeService.getDisplay(res.getPhone())); //隐藏号码
+		}
 		return res;
 	}
 
 	public ActiveEntity findInviteCodeByOpenid(String openid) {
 		ActiveEntity res = baseMapper.findInviteCodeByOpenid(openid);
-		res.setPhone(encodeService.getDisplay(res.getPhone())); //隐藏号码
+		if(res != null) {
+			res.setPhone(encodeService.getDisplay(res.getPhone())); //隐藏号码
+		}
 		return res;
 	}
 
-	public int findInviteNum(String inviteCode) {
-		return baseMapper.findInviteNum(inviteCode);
+	public int findInviteNum(String phone) {
+		ActiveEntity obj = findInviteCodeByPhone(phone);
+		return baseMapper.findInviteNum(obj.getInviteCode());
 	}
 	
 	public int findNum() {
 		
-		int offset = (int) redis.get(redisKey.activeOffsetNum);
-		int time = (int) redis.get(redisKey.activeOffsetTime);
+		Integer offset = (Integer) redis.get(redisKey.activeOffsetNum);
+		Integer time = (Integer) redis.get(redisKey.activeOffsetTime);
+		
+		offset = offset == null ? 0 : offset;
+		time = time == null ? 0 : time;
 		
 		ActiveOffsetEntity acObj = null;
 		if(offset == 0 && time == 0) {
@@ -110,6 +122,9 @@ public class ActiveService extends SuperService<ActiveMapper, ActiveEntity> {
 		if(LocalTime.now().getHour() + 1 > time) {
 			if(acObj == null){
 				acObj = aoMapper.find();
+			}
+			if(acObj == null) {
+				acObj = new ActiveOffsetEntity();
 			}
 			offset = acObj.getNum();
 			time = acObj.getTime();

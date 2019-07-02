@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.fastjson.JSONArray;
 import com.changyou.activity.bean.InviteGiftEntity;
 import com.changyou.activity.service.InviteGiftService;
 import com.changyou.activity.util.ResCode;
@@ -26,9 +27,11 @@ public class InviteGiftController extends BaseController {
      * 	查询邀请奖项列表
      * @return
      */
+	@SuppressWarnings("unchecked")
 	@GetMapping("/all")
 	public Result<InviteGiftEntity> findAll() {
 		List<Map<String, Object>> res = service.findAll();
+    	System.out.println(JSONArray.toJSONString(res));
 		return new Result<>().setCodeAndMessage(ResCode.ResCode20000).setData(res);
 	}
 }

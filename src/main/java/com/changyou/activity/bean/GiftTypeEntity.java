@@ -19,7 +19,7 @@ public class GiftTypeEntity extends SuperEntity {
 	private long pid;
 	private String name;
 	private int num;
-	private String app_code;
-	private String activity_code;
-	private String version_code;
+	private String appCode;
+	private String activityCode;
+	private String versionCode;
 }

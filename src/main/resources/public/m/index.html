@@ -53,7 +53,7 @@
 	</div>
 	<div class="container">
 		<div class="section section_1">
-			<div class="lg_show lg_welcome">欢迎您，亲爱的
+			<div class="lg_welcome">欢迎您，亲爱的
 				<span>134****5277</span>   
 				<a class="btn_quit" href="javascript:;" >[退出]</a>
 			</div>
@@ -139,7 +139,7 @@
 		<div class="section section_3">
 			<div class="title">老兄弟，新江湖</div>
 			<p class="tips_txt2">星宿派来袭，邀请好友一起重回天龙，兄弟们人人有奖！</p>
-			<div class="lg_show yq_txt yy_txt">
+			<div class="yq_txt yy_txt">
 				<span class="dot"></span>
 				已邀请<span class="yq_num">0</span>人
 				<span class="dot"></span>
@@ -176,7 +176,7 @@
 					<a class="btn_get" href="javascript:;" title="领取奖励"></a>
 				</div> -->
 			</div>
-			<div class="lg_show yqm_txt yy_txt">
+			<div class="yqm_txt yy_txt">
 				<span class="dot"></span>
 				您的邀请码是：<span class="yqm_num">XXXXXXXX</span>
 				<span class="dot"></span>
@@ -190,9 +190,11 @@
 			<div class="swiper">
 				<div class="swiper-container">
 				    <div class="swiper-wrapper">
-				        <div class="swiper-slide"><img src="inc/images/img_bg.png"/></div>
-				        <div class="swiper-slide"><img src="inc/images/img_bg.png"/></div>
-				        <div class="swiper-slide"><img src="inc/images/img_bg.png"/></div>
+				        <div class="swiper-slide"><img src="inc/images/1.png"/></div>
+				        <div class="swiper-slide"><img src="inc/images/2.png"/></div>
+				        <div class="swiper-slide"><img src="inc/images/3.png"/></div>
+						<div class="swiper-slide"><img src="inc/images/4.png"/></div>
+						<div class="swiper-slide"><img src="inc/images/5.png"/></div>
 				    </div>
 				</div>
 			    <!-- 如果需要分页器 -->
@@ -304,8 +306,8 @@
 		<div class="pop-con">
 			<div class="code_con">
 				<p>
-					预约网址：<span class="code_link">www.baidu.com</span><br/>
-					我的邀请码是：<span class="code_txt">XXXXXX</span>
+					预约网址：<span class="code_link"></span><br/>
+					我的邀请码是：<span class="code_txt"></span>
 				</p>
 			</div>
 			<a href="javascript:;" class="box_btn_copy" title="复制"></a>
@@ -396,16 +398,17 @@
         version: "20190701",
         server: "tpl0612",
         platform: "PHONE",
-        host: "http://127.0.0.1:8580",
 
         isWxLogin: false,
-        isUserInit: false,
+        isUserInit: true,
         isWxInit: false,
         ready: function(data) {
             if(data.code === 10000) {
                 initAfter();
+                yyLoginInit(data);
             }else {
                 initBefore();
+                yyNoLoginInit(data);
             }
         }
     });
@@ -420,6 +423,8 @@
             cyja.user.getCode($inputAccount.val());
         });
         $btnLogin.click(function () {
+        	alert($inputAccount.val());
+        	alert($inputPwd.val());
             cyja.user.loginPhone($inputAccount.val(), $inputPwd.val())
         });
         
@@ -434,6 +439,6 @@
     }
 </script>
 
-<script src="inc/js/test.js"></script>
+<script src="inc/js/clipboard.min.js"></script>
 <script src="inc/js/yy.js"></script>
 </html>

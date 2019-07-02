@@ -19,7 +19,7 @@ public class ActiveOffsetEntity extends SuperEntity {
 	private long pid;
 	private int num;
 	private int time;
-	private String app_code;
-	private String activity_code;
-	private String version_code;
+	private String appCode;
+	private String activityCode;
+	private String versionCode;
 }
