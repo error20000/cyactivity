@@ -27,4 +27,8 @@ public class InviteGiftService extends SuperService<InviteGiftMapper, InviteGift
 				})
 				.collect(Collectors.toList());
 	}
+	
+	public List<InviteGiftEntity> findList() {
+		return baseMapper.findAll();
+	}
 }

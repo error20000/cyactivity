@@ -10,6 +10,11 @@ public enum ResCode implements EnumIntf {
 	ResCode20012(20012, "邀请码已用完"),
 	ResCode20013(20013, "邀请码获取失败，请重新提交"),
 	ResCode20014(20014, "手机验证码错误"),
+	ResCode20015(20015, "活动未开始"),
+	ResCode20016(20016, "活动已结束"),
+	ResCode20017(20017, "邀请礼包查询失败"),
+	ResCode20018(20018, "未达到领取条件"),
+	ResCode20019(20019, "邀请礼包已领取"),
 	
 
 	ResCode20020(20020, "缺少参数"),

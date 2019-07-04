@@ -54,11 +54,11 @@ public class ActiveService extends SuperService<ActiveMapper, ActiveEntity> {
 		if(test != null) {
 			return new Result<>().setCodeAndMessage(ResCode.ResCode20011);
 		}
-		//判断手机号验证码
-		String data = ptService.checkUserSendCodeService(obj.getPhone(), vcode).getData();
+		//判断手机号验证码 -- 预约前已登录，所以不用判断vcode
+		/*String data = ptService.checkUserSendCodeService(obj.getPhone(), vcode).getData();
 		if(!"0".equals(data)) {
 			return new Result<>().setCodeAndMessage(ResCode.ResCode20014);
-		}
+		}*/
 		//获取邀请码
 		GiftCodeEntity giftCode = null;
 		synchronized (lock) {
