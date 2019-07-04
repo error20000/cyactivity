@@ -22,4 +22,5 @@ public class GiftTypeEntity extends SuperEntity {
 	private String appCode;
 	private String activityCode;
 	private String versionCode;
+	private int server;
 }
