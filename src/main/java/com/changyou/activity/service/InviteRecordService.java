@@ -6,9 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONObject;
-import com.changyou.activity.bean.ActiveEntity;
-import com.changyou.activity.bean.GiftCodeEntity;
 import com.changyou.activity.bean.InviteConfigEntity;
 import com.changyou.activity.bean.InviteGiftEntity;
 import com.changyou.activity.bean.InviteRecordEntity;

@@ -18,6 +18,8 @@ public enum ResCode implements EnumIntf {
 	
 
 	ResCode20020(20020, "缺少参数"),
+	ResCode20021(20021, "角色名格式不符合，请重新输入"),
+
 
 	ResCode20003(20003, "修改失败"),
 	ResCode20002(20002, "保存失败"),

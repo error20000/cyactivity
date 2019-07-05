@@ -7,7 +7,6 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.changyou.activity.bean.ActiveEntity;
 import com.changyou.activity.bean.ActiveOffsetEntity;
 import com.changyou.activity.bean.GiftCodeEntity;
@@ -17,6 +16,7 @@ import com.changyou.activity.dao.GiftCodeMapper;
 import com.changyou.activity.util.RedisKey;
 import com.changyou.activity.util.ResCode;
 import com.changyou.activity.util.SnowflakeIdWorker;
+import com.changyou.activity.util.Utils;
 import com.cyou.activity.common.Redis;
 import com.cyou.activity.service.EncodeService;
 import com.cyou.activity.service.PtService;
@@ -60,23 +60,24 @@ public class ActiveService extends SuperService<ActiveMapper, ActiveEntity> {
 			return new Result<>().setCodeAndMessage(ResCode.ResCode20014);
 		}*/
 		//获取邀请码
-		GiftCodeEntity giftCode = null;
+		//GiftCodeEntity giftCode = null;
+		String code = "";
 		synchronized (lock) {
-			giftCode = gcMapper.unused();
-			System.out.println(JSONObject.toJSONString(giftCode));
+			/*giftCode = gcMapper.unused();
 			if(giftCode == null) {
 				return new Result<>().setCodeAndMessage(ResCode.ResCode20012);
 			}
 			int gres = gcMapper.used(giftCode.getCode());
-			System.out.println(gres);
 			if(gres == 0) {
 				return new Result<>().setCodeAndMessage(ResCode.ResCode20013);
-			}
+			}*/
+			//随机生成
+			code = getCode();
 		}
 		//保存
 		obj.setPid(SnowflakeIdWorker.generateId());
 		obj.setCreateTime(new Date());
-		obj.setInviteCode(giftCode.getCode());
+		obj.setInviteCode(code);
 		int res = baseMapper.insert(obj);
 		if(res == 0) {
 			return new Result<>().setCodeAndMessage(ResCode.ResCode20002);
@@ -136,8 +137,14 @@ public class ActiveService extends SuperService<ActiveMapper, ActiveEntity> {
 		return baseMapper.count() + offset;
 	}
 	
-	public static void main(String[] args) {
-		EncodeService service = new EncodeService();
-		System.out.println(service.getDisplay("15881146309"));
+	
+	private String getCode() {
+		String code = Utils.createVCode(6, "", false, "a");
+		ActiveEntity aobj = baseMapper.isUsedCode(code);
+		if(aobj == null) {
+			return code;
+		}else {
+			return getCode();
+		}
 	}
 }

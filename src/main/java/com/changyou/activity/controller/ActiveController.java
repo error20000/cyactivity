@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSONObject;
 import com.changyou.activity.bean.ActiveEntity;
 import com.changyou.activity.service.ActiveService;
 import com.changyou.activity.util.ResCode;
@@ -50,7 +49,6 @@ public class ActiveController extends BaseController {
     	obj.setVersionCode(getVersion());
     	obj.setAppCode(getGame());
     	obj.setOpenid(phone);
-    	System.out.println(JSONObject.toJSONString(obj));
 		return service.insert(obj, vcode);
 	}
     
@@ -75,8 +73,6 @@ public class ActiveController extends BaseController {
 	public Result<ActiveEntity> findInviteNum(HttpServletRequest request) {
 		String phone = getPhone(request);
 		int res = service.findInviteNum(phone);
-		System.out.println(phone);
-		System.out.println(res);
 		return new Result<>().setCodeAndMessage(ResCode.ResCode20000).setData(res);
 	}
 
@@ -90,7 +86,6 @@ public class ActiveController extends BaseController {
 	@PostMapping("/info")
 	public Result<ActiveEntity> info(HttpServletRequest request) {
 		String phone = getPhone(request);
-		System.out.println(phone);
 		ActiveEntity res = service.findInviteCodeByPhone(phone);
 		return new Result<>().setCodeAndMessage(ResCode.ResCode20000).setData(res);
 	}

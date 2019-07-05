@@ -24,6 +24,7 @@ public class InviteRecordEntity extends SuperEntity {
 	private long inviteGiftPid;
 	private String plat;
 	private String serverName;
+	private String roleName;
 	private String appCode;
 	private String activityCode;
 	private String versionCode;

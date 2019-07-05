@@ -11,6 +11,8 @@ import com.changyou.activity.bean.InviteRecordEntity;
 import com.changyou.activity.service.InviteRecordService;
 import com.changyou.activity.util.ResCode;
 import com.cyou.activity.common.BaseController;
+import com.cyou.activity.common.EnumOpenType;
+import com.cyou.activity.common.entity.CoreUserOpenEntity;
 import com.cyou.common.parent.bean.Result;
 
 @RestController
@@ -27,23 +29,36 @@ public class InviteRecordController extends BaseController {
 	@SuppressWarnings("unchecked")
 	@PostMapping("/add")
 	public Result<InviteRecordEntity> add(HttpServletRequest req) {
-    	//判断参数
-    	String phone = req.getParameter("phone");
     	String plat = req.getParameter("plat");
     	String serverName = req.getParameter("serverName");
+    	String roleName = req.getParameter("roleName");
     	String inviteGiftPid = req.getParameter("inviteGiftPid");
     	if(inviteGiftPid == null || "".equals(inviteGiftPid)
-    			|| phone == null || "".equals(phone) ) {
+    			|| serverName == null || "".equals(serverName)
+    	    	|| roleName == null || "".equals(roleName)
+    	    	|| plat == null || "".equals(plat) ) {
     		return new Result<>().setCodeAndMessage(ResCode.ResCode20020);
     	}
+    	if(!roleName.matches("[A-Z0-9]{8}[\\-][A-Z0-9]{8}")) {
+    		return new Result<>().setCodeAndMessage(ResCode.ResCode20021);
+    	}
+		String phone = getPhone(req);
     	InviteRecordEntity obj = new InviteRecordEntity();
     	obj.setPhone(phone);
     	obj.setPlat(plat);
     	obj.setServerName(serverName);
+    	obj.setRoleName(roleName);
     	obj.setInviteGiftPid(Long.parseLong(inviteGiftPid));
     	obj.setAppCode(getGame());
     	obj.setActivityCode(getActivity());
     	obj.setVersionCode(getVersion());
 		return service.insert(obj);
 	}
+	
+	private String getPhone(HttpServletRequest request) {
+		CoreUserOpenEntity user = getUser(request, EnumOpenType.PHONE);
+		return user.getOpenid();
+    }
+	
+	
 }
