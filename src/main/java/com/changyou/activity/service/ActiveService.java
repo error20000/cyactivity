@@ -105,6 +105,9 @@ public class ActiveService extends SuperService<ActiveMapper, ActiveEntity> {
 
 	public int findInviteNum(String phone) {
 		ActiveEntity obj = findInviteCodeByPhone(phone);
+		if(obj == null) {
+			return 0;
+		}
 		return baseMapper.findInviteNum(obj.getInviteCode());
 	}
 	
