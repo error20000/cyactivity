@@ -13,6 +13,7 @@ import com.changyou.activity.util.ResCode;
 import com.cyou.activity.common.BaseController;
 import com.cyou.activity.common.EnumOpenType;
 import com.cyou.activity.common.entity.CoreUserOpenEntity;
+import com.cyou.activity.service.EncodeService;
 import com.cyou.common.parent.bean.Result;
 
 @RestController
@@ -21,6 +22,8 @@ public class InviteRecordController extends BaseController {
 	
     @Autowired
     private InviteRecordService service;
+    @Autowired
+    private EncodeService encodeService;
 
     /**
      * 	查询邀请奖项列表
@@ -57,7 +60,7 @@ public class InviteRecordController extends BaseController {
 	
 	private String getPhone(HttpServletRequest request) {
 		CoreUserOpenEntity user = getUser(request, EnumOpenType.PHONE);
-		return user.getOpenid();
+		return encodeService.decode(user.getOpenid());
     }
 	
 	

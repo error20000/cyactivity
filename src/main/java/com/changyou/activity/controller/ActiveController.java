@@ -14,6 +14,7 @@ import com.changyou.activity.util.ResCode;
 import com.cyou.activity.common.BaseController;
 import com.cyou.activity.common.EnumOpenType;
 import com.cyou.activity.common.entity.CoreUserOpenEntity;
+import com.cyou.activity.service.EncodeService;
 import com.cyou.common.parent.bean.Result;
 
 @RestController
@@ -22,6 +23,8 @@ public class ActiveController extends BaseController {
 	
     @Autowired
     private ActiveService service;
+    @Autowired
+    private EncodeService encodeService;
     
     /**
      * 	参与活动
@@ -92,6 +95,6 @@ public class ActiveController extends BaseController {
     
     private String getPhone(HttpServletRequest request) {
 		CoreUserOpenEntity user = getUser(request, EnumOpenType.PHONE);
-		return user.getOpenid();
+		return encodeService.decode(user.getOpenid());
     }
 }
